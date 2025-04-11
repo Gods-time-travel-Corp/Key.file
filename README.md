@@ -1,6 +1,928 @@
 # Key.file
 
-From 5a3b50f42119f54a8da98077d9bb2bfc040587d0 Mon Sep 17 00:00:00 2001
+<<<< 
+<<gh pr checkout PULL-REQUEST>>
+
+
+git fetch origin pull/ID/head: BRANCH_NAME
+Switch to the new branch that's based on this pull request:
+
+[main] $ git switch BRANCH_NAME
+> Switched to a new branch 'BRANCH_NAME'
+At this point, you can do anything you want with this branch. You can run some local tests, or merge other branches into the branch.
+
+When you're ready, you can push the new branch up:
+
+[pull-inactive-pull-request] $ git push origin BRANCH_NAME
+> Counting objects: 32, done.
+> Delta compression using up to 8 threads.
+> Compressing objects: 100 % (26/26), done.
+> Writing objects: 100 % (29/29), 74.94 KiB | 0 bytes/s, done.
+> Total 29 (delta 8), reused 0 (delta 0)
+> To https: // github.com/USERNAME/REPOSITORY.git
+> * [new branch]      BRANCH_NAME -> BRANCH_NAME>>
+
+error:
+
+! [remote rejected] HEAD -> refs/pull/1/head(deny updating a hidden ref)
+error: failed to push some refs to 'git@github.local:USERNAME/REPOSITORY.git'>>
+
+gh pr create subcommand.
+
+gh pr create
+To assign a pull request to an individual, use the - -assignee or -a flags. You can use @ me to self-assign the pull request.
+
+gh pr create - -assignee "@octocat"
+To specify the branch into which you want the pull request merged, use the - -base or -B flags. To specify the branch that contains commits for your pull request, use the - -head or -H flags.
+
+gh pr create - -base my-base-branch - -head my-changed-branch
+To include a title and body for the new pull request, use the - -title and --body flags.
+
+gh pr create - -title "The bug is fixed" - -body "Everything works again"
+To mark a pull request as a draft, use the - -draft flag.
+
+gh pr create - -draft
+To add a labels or milestones to the new pull request, use the - -label and --milestone flags.
+
+gh pr create - -label "bug,help wanted" - -milestone octocat-milestone
+To add the new pull request to a specific project, use the - -project flag.
+
+gh pr create - -project octocat-project
+To assign an individual or team as reviewers, use the - -reviewer flag.
+
+gh pr create - -reviewer monalisa, hubot - -reviewer myorg/team-name
+To create the pull request in your default web browser, use the - -web flag.
+
+gh pr create - -web>>
+
+<<file:
+
+"features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+}>>
+
+$ gh at verify - R cli/cli gh_2.62.0_macOS_arm64.zip
+Loaded digest sha256: fdb77f31b8a6dd23c3fd858758d692a45f7fc76383e37d475bdcae038df92afc for file: // gh_2.62.0_macOS_arm64.zip
+Loaded 1 attestation from GitHub API
+✓ Verification succeeded!
+
+sha256: fdb77f31b8a6dd23c3fd858758d692a45f7fc76383e37d475bdcae038df92afc was attested by:
+REPO     PREDICATE_TYPE                  WORKFLOW
+cli/cli  https: // slsa.dev/provenance/v1  .github/workflows/deployment.yml@refs/heads/trunk>>
+<<$ git clone https: // github.com/sigstore/cosign
+$ cd cosign
+$ go install ./cmd/cosign
+$ $(go env GOPATH)/bin/cosign>>
+
+<< < FROM ghcr.io/sigstore/cosign/cosign: v2.4.1 as cosign-bin
+
+# Source: https://github.com/chainguard-images/static
+FROM cgr.dev/chainguard/static: latest
+COPY - -from = cosign-bin / ko-app/cosign / usr/local/bin/cosign
+ENTRYPOINT["cosign"]
+Quick Start
+This shows how to:
+
+sign a container image with the default identity-based "keyless signing" method(see the documentation for more information)
+verify the container image
+Sign a container and store the signature in the registry
+
+Note that you should always sign images based on their digest(@sha256: ...) rather than a tag(: latest) because otherwise you might sign something you didn't intend to!
+
+cosign sign
+
+Generating ephemeral keys...
+Retrieving signed certificate...
+
+Note that there may be personally identifiable information associated with this signed artifact.
+This may include the email address associated with the account with which you authenticate.
+This information will be used for signing this artifact and will be stored in public transparency logs and cannot be removed later.
+
+By typing 'y', you attest that you grant (or have permission to grant) and agree to have this information stored permanently in transparency logs.
+Are you sure you would like to continue ? [y/N] y
+Your browser will now be opened to:
+https: // oauth2.sigstore.dev/auth/auth?access_type = online & client_id = sigstore & code_challenge = OrXitVKUZm2lEWHVt1oQWR4HZvn0rSlKhLcltglYxCY & code_challenge_method = S256 & nonce = 2KvOWeTFxYfxyzHtssvlIXmY6Jk & redirect_uri = http % 3A % 2F % 2Flocalhost % 3A57102 % 2Fauth % 2Fcallback & response_type = code & scope = openid+email & state = 2KvOWfbQJ1caqScgjwibzK2qJmb
+Successfully verified SCT...
+tlog entry created with index: 12086900
+Pushing signature to: >>>>
+
+<< < certificate-identity and --certificate-oidc-issuer flags:
+
+cosign verify - -certificate-identity = --certificate-oidc-issuer =
+You can also pass in a regex for the certificate identity and issuer flags, --certificate-identity-regexp and --certificate-oidc-issuer-regexp.
+
+Verify a container against a public key
+
+This command returns 0 if at least one cosign formatted signature for the image is found matching the public key. See the detailed usage below for information and caveats on other signature formats.
+
+Any valid payloads are printed to stdout, in json format. Note that these signed payloads include the digest of the container image, which is how we can be sure these "detached" signatures cover the correct image.
+
+$ cosign verify - -key cosign.pub: 1h
+The following checks were performed on these signatures:
+    - The cosign claims were validated
+    - The signatures were verified against the specified public key
+{"Critical": {"Identity": {"docker-reference": ""}, "Image": {"Docker-manifest-digest":
+                                                              "sha256:87ef60f558bad79beea6425a3b28989f01dd417164150ab3baab98dcbf04def8"}, "Type": "cosign container image signature"}, "Optional": null}
+Verify a container in an air-gapped environment >> >
+
+<< < cosign save(note, this step must be done with a network connection):
+
+cosign initialize  # This will pull in the latest TUF root
+cosign save - -dir ./path/to/dir
+Now, in an air-gapped environment, this local image can be verified:
+
+cosign verify - -certificate-identity - -certificate-oidc-issuer - -offline - -local-image ./path/to/dir
+You'll need to pass in expected values for and to correctly verify this image. If you signed with a keypair, the same command will work, assuming the public key material is present locally:
+
+cosign verify - -key cosign.pub - -offline - -local-image ./path/to/dir >> >
+
+<< << cosign upload blob:
+
+$ echo "my first artifact" > artifact
+$ BLOB_SUM =$(shasum - a 256 artifact | cut - d' ' - f 1) & & echo ""
+c69d72c98b55258f9026f984e4656f0e9fd3ef024ea3fac1d7e5c7e6249f1626
+$ BLOB_NAME = my-artifact -$(uuidgen | head - c 8 | tr 'A-Z' 'a-z')
+$ BLOB_URI = ttl.sh /: 1h
+
+$ BLOB_URI_DIGEST =$(cosign upload blob - f artifact) & & echo ""
+Uploading file from [artifact] to[ttl.sh/my-artifact-f42c22e0:5m] with media type[text/plain]
+File[artifact] is available directly at[ttl.sh/v2/my-artifact-f42c22e0/blobs/sha256:c69d72c98b55258f9026f984e4656f0e9fd3ef024ea3fac1d7e5c7e6249f1626]
+Uploaded image to:
+ttl.sh/my-artifact-f42c22e0@sha256: 790d47850411e902aabebc3a684eeb78fcae853d4dd6e1cc554d70db7f05f99f
+Your users can download it from the "direct" url with standard tools like curl or wget:
+
+$ curl - L ttl.sh/v2//blobs/sha256: > artifact-fetched
+The digest is baked right into the URL, so they can check that as well:
+
+$ cat artifact-fetched | shasum - a 256
+c69d72c98b55258f9026f984e4656f0e9fd3ef024ea3fac1d7e5c7e6249f1626 -
+You can sign it with the normal cosign sign command and flags:
+
+$ cosign sign - -key cosign.key
+Enter password for private key:
+Pushing signature to: ttl.sh/my-artifact-f42c22e0 >> >> >
+
+<< < brew install tektoncd-cli
+Use released tarball
+
+# Get the tar.xz
+curl - LO https: // github.com/tektoncd/cli/releases/download/v0.40.0/tkn_0.40.0_Darwin_all.tar.gz
+# Extract tkn to your PATH (e.g. /usr/local/bin)
+sudo tar xvzf tkn_0.40.0_Darwin_all.tar.gz - C / usr/local/bin tkn >> >> >
+
+
+<<zypper in ninja>>>>
+
+
+<<<<<   <<www/
+â”œâ”€â”€ build/
+â”‚   â”œâ”€â”€ assets/
+â”‚   â”‚   â”œâ”€â”€ logo.png
+â”‚   â”‚   â””â”€â”€ scenery/
+â”‚   â”‚       â”œâ”€â”€ beach.png
+â”‚   â”‚       â””â”€â”€ sunset.png
+â”‚   â””â”€â”€ other-assets/
+â”‚       â””â”€â”€ font.tiff
+â””â”€â”€ ...>>
+<<zypper in ninja>>
+
+<<apk add ninja>>
+
+
+
+
+<<xbps-install -S ninja>>
+
+<<<brew install ninja
+MacPorts:
+port install ninja
+FreeBSD
+
+pkg install ninja>>>
+
+
+<<<<conda install -c conda-forge ninja
+Pip:
+python -m pip install ninja
+Spack:
+spack install ninja>>>>>
+<<<    $ git clone https://github.com/ninja-build/ninja.git && cd ninja
+    $ git checkout release>>>
+
+<<<vcvarsall.bat with the appropriate environment.
+Build ninja and test it.
+The steps for a Visual Studio 2015 64-bit build are outlined here:
+
+    > "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
+    > python configure.py --bootstrap
+    > ninja --help
+Copy the ninja executable to another location, if desired, e.g. C:\local\Ninja.
+
+Finally add the path where ninja.exe is to the PATH variable.
+
+Adjusting build flags
+
+Build in "debug" mode while developing (disables optimizations and builds way faster on Windows):
+
+./configure.py --debug
+To use clang, set CXX:
+
+CXX=clang++ ./configure.py>>>>
+
+<<./ninja ninja_test && ./ninja_test --gtest_filter=MyTest.Name>>
+
+<<path/to/misc/measure.py path/to/my/ninja chrome>>
+
+<<<Use /// for doxygen.
+Use \a to refer to arguments.
+It's not necessary to document each argument, especially when they're relatively self-evident (e.g. in CanonicalizePath(string* path, string* err), the arguments are hopefully obvious)
+Building the manual
+
+sudo apt-get install asciidoc --no-install-recommends
+./ninja manual
+Building the code documentation
+
+sudo apt-get install doxygen
+./ninja doxygen>>>
+
+
+
+<<<<Install mingw, msys, and python
+In the mingw shell, put Python in your path, and python configure.py --bootstrap
+To reconfigure, run python configure.py
+Remember to strip the resulting executable if size matters to you
+Via mingw on Linux (not well supported)
+
+Setup on Ubuntu Lucid:
+
+sudo apt-get install gcc-mingw32 wine
+export CC=i586-mingw32msvc-cc CXX=i586-mingw32msvc-c++ AR=i586-mingw32msvc-ar
+Setup on Ubuntu Precise:
+
+sudo apt-get install gcc-mingw-w64-i686 g++-mingw-w64-i686 wine
+export CC=i686-w64-mingw32-gcc CXX=i686-w64-mingw32-g++ AR=i686-w64-mingw32-ar
+Setup on Arch:
+
+Uncomment the [multilib] section of /etc/pacman.conf and sudo pacman -Sy.
+sudo pacman -S mingw-w64-gcc wine
+export CC=x86_64-w64-mingw32-cc CXX=x86_64-w64-mingw32-c++ AR=x86_64-w64-mingw32-ar
+export CFLAGS=-I/usr/x86_64-w64-mingw32/include
+Then run:
+
+./configure.py --platform=mingw --host=linux
+Build ninja.exe using a Linux ninja binary: /path/to/linux/ninja
+Run: ./ninja.exe (implicitly runs through wine(!))
+Using Microsoft compilers on Linux (extremely flaky)
+
+The trick is to install just the compilers, and not all of Visual Studio, by following these instructions.
+
+Using gcov
+
+Do a clean debug build with the right flags:
+
+CFLAGS=-coverage LDFLAGS=-coverage ./configure.py --debug
+ninja -t clean ninja_test && ninja ninja_test
+Run the test binary to generate .gcda and .gcno files in the build directory, then run gcov on the .o files to generate .gcov files in the root directory:
+
+./ninja_test
+gcov build/*.o
+Look at the generated .gcov files directly, or use your favorite gcov viewer.
+
+Using afl-fuzz
+
+Build with afl-clang++:
+
+CXX=path/to/afl-1.20b/afl-clang++ ./configure.py
+ninja
+Then run afl-fuzz like so:
+
+afl-fuzz -i misc/afl-fuzz -o /tmp/afl-fuzz-out ./ninja -n -f @@
+You can pass -x misc/afl-fuzz-tokens to use the token dictionary. In my testing, that did not seem more effective though.
+
+Using afl-fuzz with asan
+
+If you want to use asan (the isysroot bit is only needed on OS X; if clang can't find C++ standard headers make sure your LLVM checkout includes a libc++ checkout and has libc++ installed in the build directory):
+
+CFLAGS="-fsanitize=address -isysroot $(xcrun -show-sdk-path)" \
+    LDFLAGS=-fsanitize=address CXX=path/to/afl-1.20b/afl-clang++ \
+    ./configure.py
+AFL_CXX=path/to/clang++ ninja
+Make sure ninja can find the asan runtime:
+
+DYLD_LIBRARY_PATH=path/to//lib/clang/3.7.0/lib/darwin/ \
+    afl-fuzz -i misc/afl-fuzz -o /tmp/afl-fuzz-out ./ninja -n -f @@
+>>>>>
+
+
+
+
+
+
+
+
+
+
+using <getAssetPath> the assets in the directory structure above are resolved relative to <build/> <path>
+
+<<import { getAssetPath } from '@stencil/core';
+
+// with an asset base path of "/build/":
+
+// '/build/assets/logo.png'
+getAssetPath('assets/logo.png');
+// '/build/assets/scenery/beach.png'
+getAssetPath('assets/scenery/beach.png');
+// '/build/other-assets/font.tiff'
+getAssetPath('other-assets/font.tiff'); >>
+
+<<src/
+â””â”€â”€ components/
+    â”œâ”€â”€ assets/
+    â”‚   â”œâ”€â”€ beach.jpg
+    â”‚   â””â”€â”€ sunset.jpg
+    â””â”€â”€ my-component.tsx>>
+
+<my-component> component will correctly load the assets based on it's <image>
+
+<<// file: my-component.tsx
+// 1. getAssetPath is imported from '@stencil/core'
+import { Component, Prop, getAssetPath, h } from '@stencil/core';
+
+@Component({
+  tag: 'my-component',
+  // 2. assetsDirs lists the 'assets' directory as a relative
+  //    (sibling) directory
+  assetsDirs: ['assets']
+})
+export class MyComponent {
+
+  @Prop() image = "sunset.jpg";
+
+  render() {
+    // 3. the asset path is retrieved relative to the asset 
+    //    base path to use in the <img> tag
+    const imageSrc = getAssetPath(`./assets/`);
+    return <img src={imageSrc} />
+  }
+}>>
+
+<src>
+
+<<import { Config } from '@stencil/core';
+
+export const config: Config = {
+  namespace: 'your-component-library',
+  outputTargets: [
+    {
+      type: 'dist-custom-elements',
+      copy: [
+        {
+          src: '**/*.{jpg,png}',
+          dest: 'dist/components/assets',
+          warn: true,
+        }
+      ]
+    },
+  ], 
+  // ...
+};>>
+
+<<import { Config } from '@stencil/core';
+import copy from 'rollup-plugin-copy';
+
+export const config: Config = {
+    namespace: 'copy',
+    outputTargets: [
+      {
+        type: 'dist-custom-elements',
+      },
+    ],
+    rollupPlugins: {
+      after: [
+        copy({
+          targets: [
+            {
+              src: 'src/**/*.{jpg,png}',
+              dest: 'dist/components/assets',
+            },
+          ],
+        }),
+      ]
+    }
+};>>
+
+<</** 
+ * Builds a URL to an asset. This is achieved by combining the 
+ * provided `path` argument with the base asset path.
+ * @param path the path of the asset to build a URL to
+ * @returns the built URL
+ */
+declare function getAssetPath(path: string): string;>>
+
+<<import { getAssetPath } from '@stencil/core';
+
+// with an asset base path of "/build/":
+// "/build/"
+getAssetPath('');
+// "/build/my-image.png"
+getAssetPath('my-image.png');
+// "/build/assets/my-image.png"
+getAssetPath('assets/my-image.png');
+// "/build/assets/my-image.png"
+getAssetPath('./assets/my-image.png');
+// "/assets/my-image.png"
+getAssetPath('../assets/my-image.png');
+// "/assets/my-image.png"
+getAssetPath('/assets/my-image.png');>>
+
+<</**
+ * Set the base asset path for resolving components
+ * @param path the base asset path
+ * @returns the new base asset path
+ */
+export declare function setAssetPath(path: string): string;>>
+
+<<export { setAssetPath } from '@stencil/core';>>
+
+
+Now your users can import it directly from your component library, e.g.:
+
+<<import { setAssetPath } from 'my-component-library';
+setAssetPath(`//assets./`);>>
+
+
+Alternatively, one may use document.currentScript.src when working in the browser and not using modules or environment variables (e.g. <document.env.ASSET_PATH)>
+
+
+
+<<npm install @trimble-oss/modus-web-components --save>>
+
+<<yarn global add lerna>>
+<<# From your top-most-directory/, initialize a workspace
+lerna init
+
+# install dependencies
+yarn install
+
+# install typescript and node types
+yarn add typescript @types/node --dev>>
+
+
+
+<<top-most-directory/
+â””â”€â”€ packages
+    â”œâ”€â”€ stencil-library/
+    â”‚   â”œâ”€â”€ stencil.config.js
+    â”‚   â””â”€â”€ src/components
+    â””â”€â”€ angular-workspace/
+        â””â”€â”€ projects/
+            â””â”€â”€ component-library/
+                â””â”€â”€ src/
+                    â”œâ”€â”€ lib/
+                    â””â”€â”€ public-api.ts>>
+
+
+
+<<yarn create stencil components stencil-library
+cd stencil-library
+# Install dependencies
+yarn install>>
+
+
+<<npx -p @angular/cli ng new angular-workspace --no-create-application
+cd angular-workspace
+npx -p @angular/cli ng generate library component-library>>
+
+<<// packages/angular-workspace/projects/component-library/package.json
+
+"peerDependencies": {
+   "@angular/common": "^15.1.0",
+-  "@angular/core": "^15.1.0"
++  "@angular/core": "^15.1.0",
++  "stencil-library": "*"
+}>>
+
+<<# from `/packages/angular-workspace`
+yarn remove jasmine-core @types/jasmine>>
+
+<<# Install dependency
+yarn add @stencil/angular-output-target --dev>>
+
+<<import { angularOutputTarget } from '@stencil/angular-output-target';
+
+export const config: Config = {
+  namespace: 'stencil-library',
+  outputTargets: [
+    // By default, the generated proxy components will
+    // leverage the output from the `dist` target, so we
+    // need to explicitly define that output alongside the
+    // Angular target
+    {
+      type: 'dist',
+    },
+    angularOutputTarget({
+      componentCorePackage: 'stencil-library',
+      outputType: 'component',
+      directivesProxyFile: '../angular-workspace/projects/component-library/src/lib/stencil-generated/components.ts',
+      directivesArrayFile: '../angular-workspace/projects/component-library/src/lib/stencil-generated/index.ts',
+    }),
+  ],
+};>>
+
+<<# Build the library and wrappers
+yarn build>>
+
+<<import { DIRECTIVES } from './stencil-generated';
+
+@NgModule({
+  declarations: [...DIRECTIVES],
+  exports: [...DIRECTIVES],
+})
+export class ComponentLibraryModule {}>>
+
+<<export * from './lib/component-library.module';
+export { DIRECTIVES } from './lib/stencil-generated';
+export * from './lib/stencil-generated/components';>>
+
+<<import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { defineCustomElements } from 'stencil-library/loader';
+
+@NgModule({
+  ...,
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => defineCustomElements,
+      multi: true
+    },
+  ]
+})
+export class ComponentLibraryModule {}>>
+
+<<# Link the working directory
+yarn link>>
+
+From your Angular component library's directory, run the following command:
+
+
+<Yarn>
+
+<<# Link the package name
+yarn link name-of-your-stencil-package>>
+
+<<npx -p @angular/cli ng generate app my-app --standalone=false>>
+
+<<â–² [WARNING] The glob pattern import("./**/.entry.js") did not match any files [empty-glob]
+
+node_modules/@stencil/core/internal/client/index.js:3808:2:
+  3808 â”‚   `./.entry.js boolean;
+  disabled?: boolean;
+  id: string;
+  label: string;
+ >>
+
+<<  <modus-radio-group checked-id="1" name="my-group"></modus-radio-group>
+
+<script>
+  const modusRadioGroup = document.querySelector('modus-radio-group');
+  modusRadioGroup.radioButtons = [
+    {
+      id: '0',
+      label: 'Radio 1',
+    },
+    {
+      id: '1',
+      checked: true,
+      label: 'Radio 2',
+    },
+    {
+      id: '2',
+      label: 'Radio 3',
+    },
+  ];
+</script> >>
+
+<<import Form from `@trimbleinc/modus-react-bootstrap/Form>>
+
+<<Form.Check#
+import Form.Check from `@trimbleinc/modus-react-bootstrap/Form.Check>>
+
+<< <FormCheck>
+  <FormCheck.Input isInvalid type={radio} />
+  <FormCheck.Label>Allow us to contact you?</FormCheck.Label>
+  <Feedback type="invalid">Yo this is required</Feedback>
+</FormCheck> >>
+
+<<FormCheck.Input#
+import FormCheck.Input from `@trimbleinc/modus-react-bootstrap/FormCheck.Input`
+>>
+^'radio'^ ^'checklist'^
+
+
+
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=fallback" rel="stylesheet" />
+
+<<import { defineCustomElements } from '@trimble-oss/modus-web-components/loader';
+
+defineCustomElements();>>
+
+<< <modus-alert message="You've installed Modus Web Components!" type="success" /> >>
+<<vscode.html-custom-data.json>>
+
+<<{
+  "html.customData": ["./node_modules/@trimble-oss/modus-web-components/dist/vscode.html-custom-data.json"]
+}>>
+<<npm ci>>
+
+<<npm run build>>
+
+<<npm publish --access public>>
+
+<<npm publish --access public --ignore-scripts --@trimble-oss:registry='https://npm.pkg.github.com'>>
+
+<<{
+  "name": "modus-web-components",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Modus Web Components Monorepo",
+  "homepage": "https://modus-web-components.trimble.com/",
+  "bugs": {
+    "url": "https://github.com/trimble-oss/modus-web-components/issues/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trimble-oss/modus-web-components.git"
+  },
+  "license": "MIT",
+  "author": "Trimble Inc",
+  "scripts": {
+    "lint-links": "npx linkinator https://modus-web-components.trimble.com/ --recurse",
+    "prettier": "npx prettier --write \"**/*.yml\"",
+    "spellcheck": "npx cspell \"**/*.{html,json,md,mdx,toml,ts,yml}\" --no-progress",
+    "build-angular": "cd angular-workspace/ng15 && npm i && npm run build && cd ../ng16 && npm i && npm run build && cd ../ng17 && npm i && npm run build && cd ../ng18 && npm i && npm run build",
+    "update-mwc-deps": "cd angular-workspace/ng15/projects/trimble-oss/modus-angular-components && npx npm-check-updates -u --dep peer @trimble-oss* && npm i && cd ../../../../ng16/projects/trimble-oss/modus-angular-components && npx npm-check-updates -u --dep peer @trimble-oss* && npm i && cd ../../../../ng17/projects/trimble-oss/modus-angular-components && npx npm-check-updates -u --dep peer @trimble-oss* && npm i && cd ../../../../ng18/projects/trimble-oss/modus-angular-components && npx npm-check-updates -u --dep peer @trimble-oss* && npm i && cd ../../../../../react-workspace/react-17 && npx npm-check-updates -u @trimble-oss* && npm i && cd ../react-18 && npx npm-check-updates -u @trimble-oss* && npm i"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "volta": {
+    "node": "18.20.5"
+  }
+}>>
+<<wss-unified-agent.config>>
+
+<<top-most-directory/
+â””â”€â”€ packages
+    â”œâ”€â”€ stencil-library/
+    â”‚   â”œâ”€â”€ stencil.config.js
+    â”‚   â””â”€â”€ src/components
+    â””â”€â”€ angular-workspace/
+        â””â”€â”€ projects/
+            â””â”€â”€ component-library/
+                â””â”€â”€ src/
+                    â”œâ”€â”€ lib/
+                    â””â”€â”€ public-api.ts>>
+
+
+
+<<NgModule>>
+
+<<import { ComponentLibraryModule } from 'component-library';
+
+@NgModule({
+  imports: [ComponentLibraryModule],
+})
+export class AppModule {}>>
+
+<declarations> and <exports> arrays
+
+<<import { MyComponent } from 'component-library';
+
+@NgModule({
+  declarations: [MyComponent],
+  exports: [MyComponent],
+})
+export class AppModule {}>>
+
+<< <my-component first="Your" last="Name"></my-component> >>
+
+<workspace> <(/packages/angular-workspace)> run <npm start> and navigate to <localhost:4200>
+
+<<npx -p @angular/cli ng generate app my-app>>
+<<npx -p @angular/cli ng build component-library>>
+
+<<â–² [WARNING] The glob pattern import("./**/.entry.js") did not match any files [empty-glob]
+
+node_modules/@stencil/core/internal/client/index.js:3808:2:
+  3808 â”‚   `./.entry.js from '@angular/core';
+import { ComponentLibraryModule } from 'component-library';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [ComponentLibraryModule],
+  templateUrl: './app.component.html',
+})
+export class AppComponent {}>>
+
+<< <my-component first="Your" last="Name"></my-component> >>
+
+<<yarn create stencil component my-component-lib>>
+
+
+<componentCorePackage> would be set to:
+
+<<stencil.config.ts
+export const config: Config = {
+  ...,
+  outputTargets: [
+    angularOutputTarget({
+      componentCorePackage: 'my-component-lib',
+      // ... additional config options
+    })
+  ]
+}>>
+
+
+Which would result in an import path like:
+
+<<import { MyComponent } from 'my-component-lib/components/my-component.js';>>
+
+<<const angularValueAccessorBindings: ValueAccessorConfig[] = [
+  {
+    elementSelectors: ['my-input[type=text]'],
+    event: 'myChange',
+    targetAttr: 'value',
+    type: 'text',
+  },
+];
+
+export const config: Config = {
+  namespace: 'stencil-library',
+  outputTargets: [
+    angularOutputTarget({
+      componentCorePackage: 'component-library',
+      directivesProxyFile: '{path to your proxy file}',
+      valueAccessorConfigs: angularValueAccessorBindings,
+    }),
+    {
+      type: 'dist',
+      esmLoaderPath: '../loader',
+    },
+  ],
+};>>
+
+
+<<createNodeLogger(process: any): Logger>>
+
+<<createNodeSystem(process: any): CompilerSystem>>
+
+<< run(init: CliInitOptions): Promise<void> >>
+
+<< runTask(process: any, config: Config, task: TaskCommand,  sys?: CompilerSystem): Promise<void> >>
+
+<@stencil/core/compiler/stencil.js.> This module can work in a NodeJS environment.
+
+<<// NodeJS (commonjs)
+const stencil = require('@stencil/core/compiler');>>
+
+
+<<transpile()
+transpile(code: string, opts?: TranspileOptions): Promise<TranspileResults> >>
+
+
+The <transpile()> function inputs source code as a string, with various options within the second argument. The function is stateless and returns a <Promise> of the results, including diagnostics and the transpiled code. The <transpile()> function does not handle any bundling, minifying, or precompiling any CSS preprocessing like Sass or Less.
+
+The <transpileSync()> equivalent is available so the same function it can be called synchronously. However, TypeScript must be already loaded within the global for it to work, where as the async transpile() function will load TypeScript automatically.
+
+Since TypeScript is used, the source code will transpile from TypeScript to JavaScript, and does not require Babel presets. Additionally, the results includes an imports array of all the <import> paths found in the source file. The transpile options can be used to set the <module> format, such as <cjs> and <JavaScript> target version, such as <es2017>
+
+<<transpileSync()
+transpileSync(code: string, opts?: TranspileOptions): TranspileResults>>
+
+<< createCompiler(config: Config): Promise<Compiler> >>
+
+
+<stencil build>
+<Compiler> instance. The config provided should already be created using the <loadConfig({...})>
+
+<<import { createNodeLogger, createNodeSys } from '@stencil/core/sys/node';
+import { createCompiler, loadConfig } from '@stencil/core/compiler';
+
+const logger = createNodeLogger(process);
+const sys = createNodeSys(process);
+const validated = await loadConfig({
+  logger,
+  sys,
+  config: {
+    /* user config */
+  },
+});
+const compiler = await createCompiler(validated.config);
+const results = await compiler.build();>>
+
+<<createSystem(): CompilerSystem>>
+
+The compiler uses a <CompilerSystem>
+
+
+<<www/
+â”œâ”€â”€ build/
+â”‚   â”œâ”€â”€ assets/
+â”‚   â”‚   â”œâ”€â”€ logo.png
+â”‚   â”‚   â””â”€â”€ scenery/
+â”‚   â”‚       â”œâ”€â”€ beach.png
+â”‚   â”‚       â””â”€â”€ sunset.png
+â”‚   â””â”€â”€ other-assets/
+â”‚       â””â”€â”€ font.tiff
+â””â”€â”€ ...>>
+
+<< <html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/my-component-library/dist/my-component-library.js"></script>
+    <script type="module">
+      import { setAssetPath } from 'https://cdn.jsdelivr.net/npm/my-component-library/dist/my-component-library.js';
+      setAssetPath(`/`);
+    </script>
+  </head>
+  <body>
+    <ion-toggle></ion-toggle>
+  </body>
+</html> >>
+
+<< <script type="module" src="https://unpkg.com/my-design-system"></script> >>
+
+
+or by importing it in the bootstrap script of your application:
+
+<<import 'my-design-system';>>
+
+To ensure that the right entry file is loaded when importing the project, define the following fields in your package.json:
+
+<<{
+  "exports": "./dist/esm/my-design-system.js",
+  "main": "./dist/cjs/my-design-system.js",
+  "unpkg": "dist/my-design-system/my-design-system.esm.js",
+}>>
+
+<<export function someUtilFunction() {
+  console.log('do stuff');
+}
+
+
+src/components/my-cmp.tsx
+import { someUtilFunction } from '../utils.ts';
+
+@Component({
+  tag: 'my-cmp'
+})
+export class MyCmp {}
+
+
+src/components/my-cmp-two.tsx
+import { someUtilFunction } from '../utils.ts';
+
+@Component({
+  tag: 'my-cmp-two'
+})
+export class MyCmpTwo {}>>
+>>>>>
+
+<<<gh codespace code
+>>
+
+<<gh codespace code --web
+>>
+
+<<<gh codespace jupyter
+€>>>
+
+<<gh codespace ssh
+>>
+
+<<<"features": {
+    "ghcr.io/devcontainers/features/python:1": {}
+}<>>>
+
+<<<ms-python.python
+ms-python.vscode-pylance
+ms-python.autopep8
+OS Support>>>
+
+
+
+This Feature should work on recent versions of Debian/Ubuntu, RedHat Enterprise Linux, Fedora, Alma, and RockyLinux distributions with the apt, yum, dnf, or microdnf package manager installed.
+
+bash is required to execute the <<<install.sh>>>
+
+
+
+<<<<Breadcrumbs
+{ "id": "python", "version": "1.7.1", "name": "Python", "documentationURL": "https://github.com/devcontainers/features/tree/main/src/python", "description": "Installs the provided version of Python, as well as PIPX, and other common Python utilities. JupyterLab is conditionally installed with the python feature. Note: May require source code compilation.", "options": { "version": { "type": "string", "proposals": [ "latest", "os-provided", "none", "3.12", "3.11", "3.10", "3.9", "3.8", "3.7", "3.6" ], "default": "os-provided", "description": "Select a Python version to install." }, "installTools": { "type": "boolean", "default": true, "description": "Flag indicating whether or not to install the tools specified via the 'toolsToInstall' option. Default is 'true'." }, "toolsToInstall": { "type": "string", "default": "flake8,autopep8,black,yapf,mypy,pydocstyle,pycodestyle,bandit,pipenv,virtualenv,pytest,pylint", "description": "Comma-separated list of tools to install when 'installTools' is true. Defaults to a set of common Python tools like pylint." }, "optimize": { "type": "boolean", "default": false, "description": "Optimize Python for performance when compiled (slow)" }, "enableShared": { "type": "boolean", "default": false, "description": "Enable building a shared Python library" }, "installPath": { "type": "string", "default": "/usr/local/python", "description": "The path where python will be installed." }, "installJupyterlab": { "type": "boolean", "default": false, "description": "Install JupyterLab, a web-based interactive development environment for notebooks" }, "configureJupyterlabAllowOrigin": { "type": "string", "default": "", "description": "Configure JupyterLab to accept HTTP requests from the specified origin" }, "httpProxy": { "type": "string", "default": "", "description": "Connect to GPG keyservers using a proxy for fetching source code signatures by configuring this option" } }, "containerEnv": { "PYTHON_PATH": "/usr/local/python/current", "PIPX_HOME": "/usr/local/py-utils", "PIPX_BIN_DIR": "/usr/local/py-utils/bin", "PATH": "/usr/local/python/current/bin:/usr/local/py-utils/bin:/usr/local/jupyter:${PATH}" }, "customizations": { "vscode": { "extensions": [ "ms-python.python", "ms-python.vscode-pylance", "ms-python.autopep8" ], "settings": { "github.copilot.chat.codeGeneration.instructions": [ { "text": "This dev container includes `python3` and `pip3` pre-installed and available on the `PATH`, along with the Python language extensions for Python development." } ], "python.defaultInterpreterPath": "/usr/local/python/current/bin/python", "[python]": { "editor.defaultFormatter": "ms-python.autopep8" } } } }, "installsAfter": [ "ghcr.io/devcontainers/features/common-utils", "ghcr.io/devcontainers/features/oryx" ] }>>>>
+
+
 From: Keith Bieszczat mibnumber001k@gmail.com
 Date: Sun, 16 Mar 2025 00:51:00 -0500
 Subject: [PATCH] Create AuthenticatedCARD.md
