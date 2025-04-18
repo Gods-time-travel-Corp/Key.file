@@ -1,4 +1,124 @@
 # Key.file
+
+convert_mont(u):
+    umasked = u (mod 2|p|)
+    P.y = u_to_y(umasked)
+    P.s = 0
+    return P
+
+To make private keys compatible with this conversion, we define a twisted Edwards private key as a scalar a where the twisted Edwards public key A = aB has a sign bit of zero (recall that B is the twisted Edwards base point). We allow a Montgomery private key to be any scalar.
+
+Converting a Montgomery private key k to a twisted Edwards public key and private key (A, a) can be done with the calculate_key_pair function ( "A" here is the public key, not the Montgomery curve constant). This function multiplies the Montgomery private key k by the twisted Edwards base point B, then adjusts the private key if necessary to produce a sign bit of zero, following [9].
+
+calculate_key_pair(k):
+    E = kB
+    A.y = E.y
+    A.s = 0
+    if E.s == 1:
+        a = -k (mod q)
+    else:
+        a = k (mod q)
+    return A, a
+
+hash_to_point(X):
+        h = hash2(X)
+        r = h (mod 2|p|)
+        s = floor((h mod 2b) / 2b-1)
+        u = elligator2(r)
+        P.y = u_to_y(u)
+        P.s = s
+        return cP
+
+If XEdDSA verification is successful it returns true, otherwise it returns false. Below is the pseudocode for the xeddsa_sign and xeddsa_verify functions.
+
+xeddsa_sign(k, M, Z):
+    A, a = calculate_key_pair(k)
+    r = hash1(a || M || Z) (mod q)
+    R = rB
+    h = hash(R || A || M) (mod q)
+    s = r + ha (mod q)
+    return R || s
+
+ 
+
+xeddsa_verify(u, M, (R || s)):
+    if u >= p or R.y >= 2|p| or s >= 2|q|:
+        return false
+    A = convert_mont(u)
+    if not on_curve(A):
+        return false
+    h = hash(R || A || M) (mod q)
+    Rcheck = sB - hA
+    if bytes_equal(R, Rcheck):
+        return true
+    return false
+
+and vxeddsa_verify functions.
+
+vxeddsa_sign(k, M, Z):
+    A, a = calculate_key_pair(k)
+    Bv = hash_to_point(A || M)
+    V = aBv
+    r = hash3(a || V || Z) (mod q)
+    R = rB
+    Rv = rBv
+    h = hash4(A || V || R || Rv || M) (mod q)
+    s = r + ha (mod q)
+    v = hash5(cV) (mod 2b)
+    return (V || h || s), v
+
+ 
+
+vxeddsa_verify(u, M, (V || h || s)):
+    if u >= p or V.y >= 2|p| or h >= 2|q| or s >= 2|q|:
+        return false
+    A = convert_mont(u)
+    Bv = hash_to_point(A || M)
+    if not on_curve(A) or not on_curve(V):
+        return false
+    if cA == I or cV == I or Bv == I:
+        return false
+    R = sB - hA
+    Rv = sBv - hV
+    hcheck = hash4(A || V || R || Rv || M) (mod q)
+    if bytes_equal(h, hcheck):
+        v = hash5(cV) (mod 2b)
+        return v
+    return false
+
+Consider two XEdDSA signatures (R || s1) and (R || s2) such that:
+
+ s1 = r + h1a (mod q)
+ s2 = r + h2a (mod q)
+
+The private key a can be calculated as a = (s1 - s2)/(h1 - h2) (mod q).
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.developer.default-data-protection</key>
+	<string>NSFileProtectionComplete</string>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.$(SIGNAL_BUNDLEID_PREFIX).signal.group</string>
+		<string>group.$(SIGNAL_BUNDLEID_PREFIX).signal.group.staging</string>
+	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)$(SIGNAL_BUNDLEID_PREFIX).signal</string>
+	</array>
+</dict>
+</plist>
+
+
+
+
+
+
+
+
+
 GitHub SIRT has a PGP public key:
 
 Key ID: 78DCCCE9923E5CFB3CAA5D5AB79DBDA3BE944D9E
