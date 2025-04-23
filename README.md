@@ -137,7 +137,452 @@ GEHeqggLGzHpEheyoBMkAP96NI0kzYvj+zhJZ/4Y3TIDZaOD8OXezwia9E2Bxf5O
 Aw==
 =4+TC
 -----END PGP PUBLIC KEY BLOCK-----
-From 5a3b50f42119f54a8da98077d9bb2bfc040587d0 Mon Sep 17 00:00:00 2001
+<ghcr.io> and <*.github .com> in the <$firewall>
+
+If I reverse loop up the IP address and run curl <https://cdn-185-199-109-154.github.com>
+
+
+<        "packages": [
+            "mavenregistryv2prod.blob.core.windows.net",
+            "npmregistryv2prod.blob.core.windows.net",
+            "nugetregistryv2prod.blob.core.windows.net",
+            "rubygemsregistryv2prod.blob.core.windows.net",
+            "npm.pkg.github.com",
+            "npm-proxy.pkg.github.com",
+            "npm-beta-proxy.pkg.github.com",
+            "npm-beta.pkg.github.com",
+            "nuget.pkg.github.com",
+            "rubygems.pkg.github.com",
+            "maven.pkg.github.com",
+            "docker.pkg.github.com",
+            "docker-proxy.pkg.github.com",
+            "containers.pkg.github.com",
+            "*.github.com",
+            "*.pkg.github.com",
+            "*.ghcr.io",
+            "*.githubassets.com",
+            "*.githubusercontent.com"
+        ],>
+
+
+<pkg-containers.githubusercontent.com>
+
+<GET
+/octocat>
+
+<curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <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>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/octocat>
+
+<GET
+/versions>
+<curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <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>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/versions>
+<GET
+/zen>
+<curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <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>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/zen>
+
+
+
+<<curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <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>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/>>
+
+<<curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <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>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/meta>>
+<curl --request GET \
+--url "https://api.github.com/octocat" \
+--header "Authorization: Bearer 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" \
+--header "X-GitHub-Api-Version: 2022-11-28">
+
+<curl --request POST \
+--url "https://api.github.com/applications/YOUR_CLIENT_ID/token" \
+--user "YOUR_CLIENT_ID:YOUR_CLIENT_SECRET" \
+--header "Accept: application/vnd.github+json" \
+--header "X-GitHub-Api-Version: 2022-11-28" \
+--data '{
+  "access_token": "ACCESS_TOKEN_TO_CHECK"
+}'>
+<GITHUB_TOKEN> = <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> 
+as an environment <variable>  and use the <run> keyword to execute the GitHub CLI <api> subcommand. For more information about the run keyword
+<PATH><Curl>
+
+<jobs:
+  use_api:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl --request GET \
+          --url "https://api.github.com/PATH" \
+          --header "Authorization: Bearer $GH_TOKEN"
+>
+
+<jobs:
+  use_api:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api /PATH>
+
+
+<{
+  "verifiable_password_authentication": true,
+  "ssh_key_fingerprints": {
+    "SHA256_RSA": 1234567890,
+    "SHA256_DSA": 1234567890,
+    "SHA256_ECDSA": 1234567890,
+    "SHA256_ED25519": 1234567890
+  },
+  "ssh_keys": [
+    "ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    "ecdsa-sha2-nistp256 ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    "ssh-rsa ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  ],
+  "hooks": [
+    "192.0.2.1"
+  ],
+  "github_enterprise_importer": [
+    "192.0.2.1"
+  ],
+  "web": [
+    "192.0.2.1"
+  ],
+  "api": [
+    "192.0.2.1"
+  ],
+  "git": [
+    "192.0.2.1"
+  ],
+  "packages": [
+    "192.0.2.1"
+  ],
+  "pages": [
+    "192.0.2.1"
+  ],
+  "importer": [
+    "192.0.2.1"
+  ],
+  "actions": [
+    "192.0.2.1"
+  ],
+  "actions_macos": [
+    "192.0.2.1"
+  ],
+  "dependabot": [
+    "192.0.2.1"
+  ],
+  "copilot": [
+    "192.0.2.1"
+  ],
+  "domains": {
+    "website": [
+      "*.example.com"
+    ],
+    "codespaces": [
+      "*.example.com"
+    ],
+    "copilot": [
+      "*.example.com"
+    ],
+    "packages": [
+      "*.example.com"
+    ]
+  }
+}>
+
+<<200
+{
+  "title": "Api Overview",
+  "description": "Api Overview",
+  "type": "object",
+  "properties": {
+    "verifiable_password_authentication": {
+      "type": "boolean",
+      "examples": [
+        true
+      ]
+    },
+    "ssh_key_fingerprints": {
+      "type": "object",
+      "properties": {
+        "SHA256_RSA": {
+          "type": "string"
+        },
+        "SHA256_DSA": {
+          "type": "string"
+        },
+        "SHA256_ECDSA": {
+          "type": "string"
+        },
+        "SHA256_ED25519": {
+          "type": "string"
+        }
+      }
+    },
+    "ssh_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      ]
+    },
+    "hooks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "github_enterprise_importer": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "web": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "api": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "git": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "importer": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "actions_macos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "codespaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "dependabot": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "copilot": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "domains": {
+      "type": "object",
+      "properties": {
+        "website": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "example.com"
+            ]
+          }
+        },
+        "codespaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "example.com"
+            ]
+          }
+        },
+        "copilot": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "example.com"
+            ]
+          }
+        },
+        "packages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "example.com"
+            ]
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "example.com"
+            ]
+          }
+        },
+        "actions_inbound": {
+          "type": "object",
+          "properties": {
+            "full_domains": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "examples": [
+                  "example.com"
+                ]
+              }
+            },
+            "wildcard_domains": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "examples": [
+                  "example.com"
+                ]
+              }
+            }
+          }
+        },
+        "artifact_attestations": {
+          "type": "object",
+          "properties": {
+            "trust_domain": {
+              "type": "string",
+              "examples": [
+                "example"
+              ]
+            },
+            "services": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "examples": [
+                  "example.com"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "verifiable_password_authentication"
+  ]
+}
+>>
+<200
+"               MMM.           .MMM\n               MMMMMMMMMMMMMMMMMMM\n               MMMMMMMMMMMMMMMMMMM      ___________________________________\n              MMMMMMMMMMMMMMMMMMMMM    |                                   |\n             MMMMMMMMMMMMMMMMMMMMMMM   | Avoid administrative distraction. |\n            MMMMMMMMMMMMMMMMMMMMMMMM   |_   _______________________________|\n            MMMM::- -:::::::- -::MMMM    |/\n             MM~:~ 00~:::::~ 00~:~MM\n        .. MMMMM::.00:::+:::.00::MMMMM ..\n              .MM::::: ._. :::::MM.\n                 MMMM;:::::;MMMM\n          -MM        MMMMMMM\n          ^  M+     MMMMMMMMM\n              MMMMMMM MM MM MM\n                   MM MM MM MM\n                   MM MM MM MM\n                .~~MM~MM~MM~MM~~.\n             ~~~~MM:~MM~~~MM~:MM~~~~\n            ~~~~~~==~==~~~==~==~~~~~~\n             ~~~~~~==~==~==~==~~~~~~\n                 :~==~==~==~==~~\n">
+
+$diff
++<ghcr.io> and <*.github .com> in the <$firewall>
+If I reverse loop up the IP address and run curl https://cdn-185-199-109-154.github.com
+< "packages": [ "mavenregistryv2prod.blob.core.windows.net", "npmregistryv2prod.blob.core.windows.net", "nugetregistryv2prod.blob.core.windows.net", "rubygemsregistryv2prod.blob.core.windows.net", "npm.pkg.github.com", "npm-proxy.pkg.github.com", "npm-beta-proxy.pkg.github.com", "npm-beta.pkg.github.com", "nuget.pkg.github.com", "rubygems.pkg.github.com", "maven.pkg.github.com", "docker.pkg.github.com", "docker-proxy.pkg.github.com", "containers.pkg.github.com", ".github.com", ".pkg.github.com", ".ghcr.io", ".githubassets.com", "*.githubusercontent.com" ],>
+<pkg-containers.githubusercontent.com>
+<GET /octocat>
+<curl -L \ -H "Accept: application/vnd.github+json" \ -H "Authorization: Bearer \<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>" \ -H "X-GitHub-Api-Version: 2022-11-28" \ https://api.github.com/octocat>
+<GET /versions> <curl -L \ -H "Accept: application/vnd.github+json" \ -H "Authorization: Bearer \<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>" \ -H "X-GitHub-Api-Version: 2022-11-28" \ https://api.github.com/versions> <GET /zen> <curl -L \ -H "Accept: application/vnd.github+json" \ -H "Authorization: Bearer \<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>" \ -H "X-GitHub-Api-Version: 2022-11-28" \ https://api.github.com/zen>
+<<curl -L \ -H "Accept: application/vnd.github+json" \ -H "Authorization: Bearer \<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>" \ -H "X-GitHub-Api-Version: 2022-11-28" \ https://api.github.com/>>
+<<curl -L \ -H "Accept: application/vnd.github+json" \ -H "Authorization: Bearer \<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>" \ -H "X-GitHub-Api-Version: 2022-11-28" \ https://api.github.com/meta>> <curl --request GET \ --url "https://api.github.com/octocat" \ --header "Authorization: Bearer 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" \ --header "X-GitHub-Api-Version: 2022-11-28">
+<curl --request POST \ --url "https://api.github.com/applications/YOUR_CLIENT_ID/token" \ --user "YOUR_CLIENT_ID:YOUR_CLIENT_SECRET" \ --header "Accept: application/vnd.github+json" \ --header "X-GitHub-Api-Version: 2022-11-28" \ --data '{ "access_token": "ACCESS_TOKEN_TO_CHECK" }'> <GITHUB_TOKEN> = <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> as an environment <variable> and use the <run> keyword to execute the GitHub CLI <api> subcommand. For more information about the run keyword <PATH><Curl>
+<jobs: use_api: runs-on: ubuntu-latest permissions: {} steps: - env: GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} run: | curl --request GET \ --url "https://api.github.com/PATH" \ --header "Authorization: Bearer $GH_TOKEN"
+<jobs: use_api: runs-on: ubuntu-latest permissions: {} steps: - env: GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} run: | gh api /PATH>
+<{ "verifiable_password_authentication": true, "ssh_key_fingerprints": { "SHA256_RSA": 1234567890, "SHA256_DSA": 1234567890, "SHA256_ECDSA": 1234567890, "SHA256_ED25519": 1234567890 }, "ssh_keys": [ "ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ecdsa-sha2-nistp256 ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ssh-rsa ABCDEFGHIJKLMNOPQRSTUVWXYZ" ], "hooks": [ "192.0.2.1" ], "github_enterprise_importer": [ "192.0.2.1" ], "web": [ "192.0.2.1" ], "api": [ "192.0.2.1" ], "git": [ "192.0.2.1" ], "packages": [ "192.0.2.1" ], "pages": [ "192.0.2.1" ], "importer": [ "192.0.2.1" ], "actions": [ "192.0.2.1" ], "actions_macos": [ "192.0.2.1" ], "dependabot": [ "192.0.2.1" ], "copilot": [ "192.0.2.1" ], "domains": { "website": [ ".example.com" ], "codespaces": [ ".example.com" ], "copilot": [ ".example.com" ], "packages": [ ".example.com" ] } }>
+<<200 { "title": "Api Overview", "description": "Api Overview", "type": "object", "properties": { "verifiable_password_authentication": { "type": "boolean", "examples": [ true ] }, "ssh_key_fingerprints": { "type": "object", "properties": { "SHA256_RSA": { "type": "string" }, "SHA256_DSA": { "type": "string" }, "SHA256_ECDSA": { "type": "string" }, "SHA256_ED25519": { "type": "string" } } }, "ssh_keys": { "type": "array", "items": { "type": "string" }, "examples": [ "ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ" ] }, "hooks": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "github_enterprise_importer": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "web": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "api": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "git": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "packages": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "pages": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "importer": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "actions": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "actions_macos": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "codespaces": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "dependabot": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "copilot": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "domains": { "type": "object", "properties": { "website": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "codespaces": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "copilot": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "packages": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "actions": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "actions_inbound": { "type": "object", "properties": { "full_domains": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "wildcard_domains": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } } } }, "artifact_attestations": { "type": "object", "properties": { "trust_domain": { "type": "string", "examples": [ "example" ] }, "services": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } } } } } } }, "required": [ "verifiable_password_authentication" ] }
+<200 " MMM. .MMM\n MMMMMMMMMMMMMMMMMMM\n MMMMMMMMMMMMMMMMMMM _____\n MMMMMMMMMMMMMMMMMMMMM | |\n MMMMMMMMMMMMMMMMMMMMMMM | Avoid administrative distraction. |\n MMMMMMMMMMMMMMMMMMMMMMMM | _______________________________|\n MMMM::- -:::::::- -::MMMM |/\n MM~:~ 00~:::::~ 00~:~MM\n .. MMMMM::.00:::+:::.00::MMMMM ..\n .MM::::: .. :::::MM.\n MMMM;:::::;MMMM\n -MM MMMMMMM\n ^ M+ MMMMMMMMM\n MMMMMMM MM MM MM\n MM MM MM MM\n MM MM MM MM\n .MM~MM~MM~MM.\n ~~MM:~MM~MM~:MM~~\n ~~==~==~==~==~~\n ~~==~==~==~==~~\n :~==~==~==~==~~\n">
 From: Keith Bieszczat mibnumber001k@gmail.com
 Date: Sun, 16 Mar 2025 00:51:00 -0500
 Subject: [PATCH] Create AuthenticatedCARD.md
