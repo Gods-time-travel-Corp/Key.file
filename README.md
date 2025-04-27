@@ -1,4 +1,124 @@
 # Key.file
+
+convert_mont(u):
+    umasked = u (mod 2|p|)
+    P.y = u_to_y(umasked)
+    P.s = 0
+    return P
+
+To make private keys compatible with this conversion, we define a twisted Edwards private key as a scalar a where the twisted Edwards public key A = aB has a sign bit of zero (recall that B is the twisted Edwards base point). We allow a Montgomery private key to be any scalar.
+
+Converting a Montgomery private key k to a twisted Edwards public key and private key (A, a) can be done with the calculate_key_pair function ( "A" here is the public key, not the Montgomery curve constant). This function multiplies the Montgomery private key k by the twisted Edwards base point B, then adjusts the private key if necessary to produce a sign bit of zero, following [9].
+
+calculate_key_pair(k):
+    E = kB
+    A.y = E.y
+    A.s = 0
+    if E.s == 1:
+        a = -k (mod q)
+    else:
+        a = k (mod q)
+    return A, a
+
+hash_to_point(X):
+        h = hash2(X)
+        r = h (mod 2|p|)
+        s = floor((h mod 2b) / 2b-1)
+        u = elligator2(r)
+        P.y = u_to_y(u)
+        P.s = s
+        return cP
+
+If XEdDSA verification is successful it returns true, otherwise it returns false. Below is the pseudocode for the xeddsa_sign and xeddsa_verify functions.
+
+xeddsa_sign(k, M, Z):
+    A, a = calculate_key_pair(k)
+    r = hash1(a || M || Z) (mod q)
+    R = rB
+    h = hash(R || A || M) (mod q)
+    s = r + ha (mod q)
+    return R || s
+
+ 
+
+xeddsa_verify(u, M, (R || s)):
+    if u >= p or R.y >= 2|p| or s >= 2|q|:
+        return false
+    A = convert_mont(u)
+    if not on_curve(A):
+        return false
+    h = hash(R || A || M) (mod q)
+    Rcheck = sB - hA
+    if bytes_equal(R, Rcheck):
+        return true
+    return false
+
+and vxeddsa_verify functions.
+
+vxeddsa_sign(k, M, Z):
+    A, a = calculate_key_pair(k)
+    Bv = hash_to_point(A || M)
+    V = aBv
+    r = hash3(a || V || Z) (mod q)
+    R = rB
+    Rv = rBv
+    h = hash4(A || V || R || Rv || M) (mod q)
+    s = r + ha (mod q)
+    v = hash5(cV) (mod 2b)
+    return (V || h || s), v
+
+ 
+
+vxeddsa_verify(u, M, (V || h || s)):
+    if u >= p or V.y >= 2|p| or h >= 2|q| or s >= 2|q|:
+        return false
+    A = convert_mont(u)
+    Bv = hash_to_point(A || M)
+    if not on_curve(A) or not on_curve(V):
+        return false
+    if cA == I or cV == I or Bv == I:
+        return false
+    R = sB - hA
+    Rv = sBv - hV
+    hcheck = hash4(A || V || R || Rv || M) (mod q)
+    if bytes_equal(h, hcheck):
+        v = hash5(cV) (mod 2b)
+        return v
+    return false
+
+Consider two XEdDSA signatures (R || s1) and (R || s2) such that:
+
+ s1 = r + h1a (mod q)
+ s2 = r + h2a (mod q)
+
+The private key a can be calculated as a = (s1 - s2)/(h1 - h2) (mod q).
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.developer.default-data-protection</key>
+	<string>NSFileProtectionComplete</string>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.$(SIGNAL_BUNDLEID_PREFIX).signal.group</string>
+		<string>group.$(SIGNAL_BUNDLEID_PREFIX).signal.group.staging</string>
+	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)$(SIGNAL_BUNDLEID_PREFIX).signal</string>
+	</array>
+</dict>
+</plist>
+
+
+
+
+
+
+
+
+
 GitHub SIRT has a PGP public key:
 
 Key ID: 78DCCCE9923E5CFB3CAA5D5AB79DBDA3BE944D9E
@@ -17,7 +137,452 @@ GEHeqggLGzHpEheyoBMkAP96NI0kzYvj+zhJZ/4Y3TIDZaOD8OXezwia9E2Bxf5O
 Aw==
 =4+TC
 -----END PGP PUBLIC KEY BLOCK-----
-From 5a3b50f42119f54a8da98077d9bb2bfc040587d0 Mon Sep 17 00:00:00 2001
+<ghcr.io> and <*.github .com> in the <$firewall>
+
+If I reverse loop up the IP address and run curl <https://cdn-185-199-109-154.github.com>
+
+
+<        "packages": [
+            "mavenregistryv2prod.blob.core.windows.net",
+            "npmregistryv2prod.blob.core.windows.net",
+            "nugetregistryv2prod.blob.core.windows.net",
+            "rubygemsregistryv2prod.blob.core.windows.net",
+            "npm.pkg.github.com",
+            "npm-proxy.pkg.github.com",
+            "npm-beta-proxy.pkg.github.com",
+            "npm-beta.pkg.github.com",
+            "nuget.pkg.github.com",
+            "rubygems.pkg.github.com",
+            "maven.pkg.github.com",
+            "docker.pkg.github.com",
+            "docker-proxy.pkg.github.com",
+            "containers.pkg.github.com",
+            "*.github.com",
+            "*.pkg.github.com",
+            "*.ghcr.io",
+            "*.githubassets.com",
+            "*.githubusercontent.com"
+        ],>
+
+
+<pkg-containers.githubusercontent.com>
+
+<GET
+/octocat>
+
+<curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <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>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/octocat>
+
+<GET
+/versions>
+<curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <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>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/versions>
+<GET
+/zen>
+<curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <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>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/zen>
+
+
+
+<<curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <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>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/>>
+
+<<curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <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>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/meta>>
+<curl --request GET \
+--url "https://api.github.com/octocat" \
+--header "Authorization: Bearer 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" \
+--header "X-GitHub-Api-Version: 2022-11-28">
+
+<curl --request POST \
+--url "https://api.github.com/applications/YOUR_CLIENT_ID/token" \
+--user "YOUR_CLIENT_ID:YOUR_CLIENT_SECRET" \
+--header "Accept: application/vnd.github+json" \
+--header "X-GitHub-Api-Version: 2022-11-28" \
+--data '{
+  "access_token": "ACCESS_TOKEN_TO_CHECK"
+}'>
+<GITHUB_TOKEN> = <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> 
+as an environment <variable>  and use the <run> keyword to execute the GitHub CLI <api> subcommand. For more information about the run keyword
+<PATH><Curl>
+
+<jobs:
+  use_api:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl --request GET \
+          --url "https://api.github.com/PATH" \
+          --header "Authorization: Bearer $GH_TOKEN"
+>
+
+<jobs:
+  use_api:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api /PATH>
+
+
+<{
+  "verifiable_password_authentication": true,
+  "ssh_key_fingerprints": {
+    "SHA256_RSA": 1234567890,
+    "SHA256_DSA": 1234567890,
+    "SHA256_ECDSA": 1234567890,
+    "SHA256_ED25519": 1234567890
+  },
+  "ssh_keys": [
+    "ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    "ecdsa-sha2-nistp256 ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    "ssh-rsa ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  ],
+  "hooks": [
+    "192.0.2.1"
+  ],
+  "github_enterprise_importer": [
+    "192.0.2.1"
+  ],
+  "web": [
+    "192.0.2.1"
+  ],
+  "api": [
+    "192.0.2.1"
+  ],
+  "git": [
+    "192.0.2.1"
+  ],
+  "packages": [
+    "192.0.2.1"
+  ],
+  "pages": [
+    "192.0.2.1"
+  ],
+  "importer": [
+    "192.0.2.1"
+  ],
+  "actions": [
+    "192.0.2.1"
+  ],
+  "actions_macos": [
+    "192.0.2.1"
+  ],
+  "dependabot": [
+    "192.0.2.1"
+  ],
+  "copilot": [
+    "192.0.2.1"
+  ],
+  "domains": {
+    "website": [
+      "*.example.com"
+    ],
+    "codespaces": [
+      "*.example.com"
+    ],
+    "copilot": [
+      "*.example.com"
+    ],
+    "packages": [
+      "*.example.com"
+    ]
+  }
+}>
+
+<<200
+{
+  "title": "Api Overview",
+  "description": "Api Overview",
+  "type": "object",
+  "properties": {
+    "verifiable_password_authentication": {
+      "type": "boolean",
+      "examples": [
+        true
+      ]
+    },
+    "ssh_key_fingerprints": {
+      "type": "object",
+      "properties": {
+        "SHA256_RSA": {
+          "type": "string"
+        },
+        "SHA256_DSA": {
+          "type": "string"
+        },
+        "SHA256_ECDSA": {
+          "type": "string"
+        },
+        "SHA256_ED25519": {
+          "type": "string"
+        }
+      }
+    },
+    "ssh_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      ]
+    },
+    "hooks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "github_enterprise_importer": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "web": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "api": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "git": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "importer": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "actions_macos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "codespaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "dependabot": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "copilot": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "192.0.2.1"
+      ]
+    },
+    "domains": {
+      "type": "object",
+      "properties": {
+        "website": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "example.com"
+            ]
+          }
+        },
+        "codespaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "example.com"
+            ]
+          }
+        },
+        "copilot": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "example.com"
+            ]
+          }
+        },
+        "packages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "example.com"
+            ]
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "example.com"
+            ]
+          }
+        },
+        "actions_inbound": {
+          "type": "object",
+          "properties": {
+            "full_domains": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "examples": [
+                  "example.com"
+                ]
+              }
+            },
+            "wildcard_domains": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "examples": [
+                  "example.com"
+                ]
+              }
+            }
+          }
+        },
+        "artifact_attestations": {
+          "type": "object",
+          "properties": {
+            "trust_domain": {
+              "type": "string",
+              "examples": [
+                "example"
+              ]
+            },
+            "services": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "examples": [
+                  "example.com"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "verifiable_password_authentication"
+  ]
+}
+>>
+<200
+"               MMM.           .MMM\n               MMMMMMMMMMMMMMMMMMM\n               MMMMMMMMMMMMMMMMMMM      ___________________________________\n              MMMMMMMMMMMMMMMMMMMMM    |                                   |\n             MMMMMMMMMMMMMMMMMMMMMMM   | Avoid administrative distraction. |\n            MMMMMMMMMMMMMMMMMMMMMMMM   |_   _______________________________|\n            MMMM::- -:::::::- -::MMMM    |/\n             MM~:~ 00~:::::~ 00~:~MM\n        .. MMMMM::.00:::+:::.00::MMMMM ..\n              .MM::::: ._. :::::MM.\n                 MMMM;:::::;MMMM\n          -MM        MMMMMMM\n          ^  M+     MMMMMMMMM\n              MMMMMMM MM MM MM\n                   MM MM MM MM\n                   MM MM MM MM\n                .~~MM~MM~MM~MM~~.\n             ~~~~MM:~MM~~~MM~:MM~~~~\n            ~~~~~~==~==~~~==~==~~~~~~\n             ~~~~~~==~==~==~==~~~~~~\n                 :~==~==~==~==~~\n">
+
+$diff
++<ghcr.io> and <*.github .com> in the <$firewall>
+If I reverse loop up the IP address and run curl https://cdn-185-199-109-154.github.com
+< "packages": [ "mavenregistryv2prod.blob.core.windows.net", "npmregistryv2prod.blob.core.windows.net", "nugetregistryv2prod.blob.core.windows.net", "rubygemsregistryv2prod.blob.core.windows.net", "npm.pkg.github.com", "npm-proxy.pkg.github.com", "npm-beta-proxy.pkg.github.com", "npm-beta.pkg.github.com", "nuget.pkg.github.com", "rubygems.pkg.github.com", "maven.pkg.github.com", "docker.pkg.github.com", "docker-proxy.pkg.github.com", "containers.pkg.github.com", ".github.com", ".pkg.github.com", ".ghcr.io", ".githubassets.com", "*.githubusercontent.com" ],>
+<pkg-containers.githubusercontent.com>
+<GET /octocat>
+<curl -L \ -H "Accept: application/vnd.github+json" \ -H "Authorization: Bearer \<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>" \ -H "X-GitHub-Api-Version: 2022-11-28" \ https://api.github.com/octocat>
+<GET /versions> <curl -L \ -H "Accept: application/vnd.github+json" \ -H "Authorization: Bearer \<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>" \ -H "X-GitHub-Api-Version: 2022-11-28" \ https://api.github.com/versions> <GET /zen> <curl -L \ -H "Accept: application/vnd.github+json" \ -H "Authorization: Bearer \<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>" \ -H "X-GitHub-Api-Version: 2022-11-28" \ https://api.github.com/zen>
+<<curl -L \ -H "Accept: application/vnd.github+json" \ -H "Authorization: Bearer \<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>" \ -H "X-GitHub-Api-Version: 2022-11-28" \ https://api.github.com/>>
+<<curl -L \ -H "Accept: application/vnd.github+json" \ -H "Authorization: Bearer \<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>" \ -H "X-GitHub-Api-Version: 2022-11-28" \ https://api.github.com/meta>> <curl --request GET \ --url "https://api.github.com/octocat" \ --header "Authorization: Bearer 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" \ --header "X-GitHub-Api-Version: 2022-11-28">
+<curl --request POST \ --url "https://api.github.com/applications/YOUR_CLIENT_ID/token" \ --user "YOUR_CLIENT_ID:YOUR_CLIENT_SECRET" \ --header "Accept: application/vnd.github+json" \ --header "X-GitHub-Api-Version: 2022-11-28" \ --data '{ "access_token": "ACCESS_TOKEN_TO_CHECK" }'> <GITHUB_TOKEN> = <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> as an environment <variable> and use the <run> keyword to execute the GitHub CLI <api> subcommand. For more information about the run keyword <PATH><Curl>
+<jobs: use_api: runs-on: ubuntu-latest permissions: {} steps: - env: GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} run: | curl --request GET \ --url "https://api.github.com/PATH" \ --header "Authorization: Bearer $GH_TOKEN"
+<jobs: use_api: runs-on: ubuntu-latest permissions: {} steps: - env: GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} run: | gh api /PATH>
+<{ "verifiable_password_authentication": true, "ssh_key_fingerprints": { "SHA256_RSA": 1234567890, "SHA256_DSA": 1234567890, "SHA256_ECDSA": 1234567890, "SHA256_ED25519": 1234567890 }, "ssh_keys": [ "ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ecdsa-sha2-nistp256 ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ssh-rsa ABCDEFGHIJKLMNOPQRSTUVWXYZ" ], "hooks": [ "192.0.2.1" ], "github_enterprise_importer": [ "192.0.2.1" ], "web": [ "192.0.2.1" ], "api": [ "192.0.2.1" ], "git": [ "192.0.2.1" ], "packages": [ "192.0.2.1" ], "pages": [ "192.0.2.1" ], "importer": [ "192.0.2.1" ], "actions": [ "192.0.2.1" ], "actions_macos": [ "192.0.2.1" ], "dependabot": [ "192.0.2.1" ], "copilot": [ "192.0.2.1" ], "domains": { "website": [ ".example.com" ], "codespaces": [ ".example.com" ], "copilot": [ ".example.com" ], "packages": [ ".example.com" ] } }>
+<<200 { "title": "Api Overview", "description": "Api Overview", "type": "object", "properties": { "verifiable_password_authentication": { "type": "boolean", "examples": [ true ] }, "ssh_key_fingerprints": { "type": "object", "properties": { "SHA256_RSA": { "type": "string" }, "SHA256_DSA": { "type": "string" }, "SHA256_ECDSA": { "type": "string" }, "SHA256_ED25519": { "type": "string" } } }, "ssh_keys": { "type": "array", "items": { "type": "string" }, "examples": [ "ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ" ] }, "hooks": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "github_enterprise_importer": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "web": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "api": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "git": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "packages": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "pages": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "importer": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "actions": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "actions_macos": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "codespaces": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "dependabot": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "copilot": { "type": "array", "items": { "type": "string" }, "examples": [ "192.0.2.1" ] }, "domains": { "type": "object", "properties": { "website": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "codespaces": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "copilot": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "packages": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "actions": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "actions_inbound": { "type": "object", "properties": { "full_domains": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } }, "wildcard_domains": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } } } }, "artifact_attestations": { "type": "object", "properties": { "trust_domain": { "type": "string", "examples": [ "example" ] }, "services": { "type": "array", "items": { "type": "string", "examples": [ "example.com" ] } } } } } } }, "required": [ "verifiable_password_authentication" ] }
+<200 " MMM. .MMM\n MMMMMMMMMMMMMMMMMMM\n MMMMMMMMMMMMMMMMMMM _____\n MMMMMMMMMMMMMMMMMMMMM | |\n MMMMMMMMMMMMMMMMMMMMMMM | Avoid administrative distraction. |\n MMMMMMMMMMMMMMMMMMMMMMMM | _______________________________|\n MMMM::- -:::::::- -::MMMM |/\n MM~:~ 00~:::::~ 00~:~MM\n .. MMMMM::.00:::+:::.00::MMMMM ..\n .MM::::: .. :::::MM.\n MMMM;:::::;MMMM\n -MM MMMMMMM\n ^ M+ MMMMMMMMM\n MMMMMMM MM MM MM\n MM MM MM MM\n MM MM MM MM\n .MM~MM~MM~MM.\n ~~MM:~MM~MM~:MM~~\n ~~==~==~==~==~~\n ~~==~==~==~==~~\n :~==~==~==~==~~\n">
 From: Keith Bieszczat mibnumber001k@gmail.com
 Date: Sun, 16 Mar 2025 00:51:00 -0500
 Subject: [PATCH] Create AuthenticatedCARD.md
